@@ -55,7 +55,6 @@ app.put('/increaseTrening', (req, res) => {
 		if (findClient.count > 1) {
 			--findClient.count;
 		} else {
-			console.log(db);
 			db.splice(db.indexOf(findClient), 1);
 		}
 	});
