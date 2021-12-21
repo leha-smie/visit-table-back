@@ -46,6 +46,28 @@ app.post('/addClient', (req, res) => {
 		}
 	});
 });
+app.put('/increaseTrening', (req, res) => {
+	const arrId = req.body;
+	const jsonData = fs.readFileSync('./db.json');
+	const db = JSON.parse(jsonData);
+	arrId.forEach(id => {
+		const findClient = db.find(el => el.id === id);
+		if (findClient.count > 1) {
+			--findClient.count;
+		} else {
+			console.log(db);
+			db.splice(db.indexOf(findClient), 1);
+		}
+	});
+	function indexReset() {
+		for (let i = 0; i < db.length; i++) {
+			db[i].id = i + 1;
+		};
+	}
+	indexReset();
+	fs.writeFileSync('./db.json', (JSON.stringify(db)));
+	res.send(db);
+});
 
 
 // app.get('/mainPageProducts', (req, res) => {
@@ -204,6 +226,6 @@ app.post('/addClient', (req, res) => {
 // });
 
 
-app.listen(PORT, () => {
+app.listen(3000, () => {
 	console.log('Server started... ');
 });
